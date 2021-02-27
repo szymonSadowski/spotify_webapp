@@ -14,7 +14,8 @@ app.get("/login", (_, res) => {
       queryString.stringify({
         response_type: "code",
         client_id: process.env.CLIENT_ID,
-        scope: "user-read-private user-read-email user-library-read",
+        scope:
+          "user-read-private user-read-email user-library-read user-read-playback-position",
         redirect_uri,
       })
   );
@@ -57,6 +58,44 @@ app.get("/podcast", async (req, res) => {
       })
       .then((response: any) => {
         const data = response.data.items;
+        return data;
+      });
+    // console.log(podcasts)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json(podcasts);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/podcastEpisodes", async (req, res) => {
+  try {
+    const access_token = req.query.access_token;
+    const id = req.query.id;
+    const podcasts = await axios
+      .get(`https://api.spotify.com/v1/shows/${id}/episodes`, {
+        headers: {
+          Authorization: "Bearer " + access_token,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        params: {
+          market: "PL",
+          limit: 1,
+          offset: 0,
+        },
+      })
+      .then((response: any) => {
+        console.log(response);
+        const data = {
+          // we take latest episode
+          name: response.data.items[0].name,
+          description: response.data.items[0].description,
+          date: response.data.items[0].release_date,
+          // because we take 64x64 img => 0 = 640x640; 1 = 300x300; 2 = 64x64
+          img: response.data.items[0].images[2].url,
+          url: response.data.items[0].external_urls.spotify,
+        };
         return data;
       });
     // console.log(podcasts)
