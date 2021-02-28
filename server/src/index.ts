@@ -86,12 +86,12 @@ app.get("/podcastEpisodes", async (req, res) => {
         },
       })
       .then((response: any) => {
-        console.log(response);
         const data = {
           // we take latest episode
           name: response.data.items[0].name,
           description: response.data.items[0].description,
-          date: response.data.items[0].release_date,
+          date: new Date(response.data.items[0].release_date),
+          dateString: response.data.items[0].release_date,
           // because we take 64x64 img => 0 = 640x640; 1 = 300x300; 2 = 64x64
           img: response.data.items[0].images[2].url,
           url: response.data.items[0].external_urls.spotify,
