@@ -1,6 +1,6 @@
 import { Flex, Box, Link, Text, Heading } from "@chakra-ui/react";
 import React from "react";
-import NextLink from "next/Link";
+// import NextLink from "next/Link";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 interface NavBarProps {
   name: string | null | undefined;
@@ -35,11 +35,9 @@ export const NavBar: React.FC<NavBarProps> = ({ name }) => {
   return (
     <Flex position="sticky" top={0} zIndex={1} bg="#58C184" p={4} width="100%">
       <Flex flex={1} m="auto" align="center" maxW={800}>
-        <NextLink href="/">
-          <Link>
+          <Link href="/">
             <Heading textColor="white">SpotifyPodcastApp</Heading>
           </Link>
-        </NextLink>
         <Box mr={4} ml={"auto"}>
           {body}
         </Box>

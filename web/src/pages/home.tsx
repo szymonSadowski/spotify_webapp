@@ -51,7 +51,7 @@ const Home = () => {
   }, [tokenCode]);
 
   return (
-    <Container height="1000vh">
+    <Container height="750vh">
       <NavBar name={name} />
       <Heading p={4}>Table with your latest Spotfy podcasts</Heading>
       <br></br>
